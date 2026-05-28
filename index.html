@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Menu Completo</title>
+  <style>
+   body {
+  margin: 0;
+  font-family: tempus sans itc, sans-serif;
+  background-color: #fff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /*background: rgba(0,0,0,0.4);*/
+  background: #fff;
+  z-index: -1;
+}
+
+/* Cabeçalho */
+header {
+  background-color: #ED4710;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: row;   /* garante lado a lado */
+  gap: 10px;             /* espaço entre carrinho e menu mobile */
+  align-items: center;
+  margin-left: auto;     /* empurra para a direita */
+  flex: 0 0 auto;       /* impede de crescer ou encolher */
+}
+
+#cartButton {
+  background-color: #fff;
+  color: #ED4710;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#cartButton:hover {
+  background-color: #FFD700;
+  color: #ED4710;
+}
+
+.logo {
+  flex: 0 0 auto; /* logo fixa à esquerda */
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+nav {
+  flex: 1 1 auto; /* menu ocupa o espaço central */
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+  background: #FFD700;
+  color: #ED4710;
+}
+
+nav ul li a.active {
+  background: #fff;
+  color: #ED4710;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  header {
+    flex-direction: row;       /* mantém logo à esquerda e ações à direita */
+  justify-content: space-between; /* espaço entre logo e ações */
+    align-items: center;       /* alinha à esquerda */
+  }
+
+  nav {
+    display: none;             /* esconde o menu normal no mobile */
+  }
+
+  .header-actions {
+    flex-direction: row;       /* carrinho e ☰ lado a lado */
+    justify-content: flex-end; /* alinhados à direita */
+    width: auto;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Menu em Cards */
+.menu {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #ED4710;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #444;
+  border-bottom: 2px solid #ED4710;
+  padding-bottom: 5px;
+}
+
+/* Grid de cards */
+.menu-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.item {
+  background: #fffdd0;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; /* para posicionar o botão de adicionar */
+  padding-bottom: 45px; /* espaço extra para o botão de adicionar */
+}
+
+.item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.item h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #ED4710;
+}
+
+.item p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.price {
+  font-weight: bold;
+  color: #e63946;
+  display: block;
+  margin-top: 10px;
+}
+
+.note {
+  font-style: italic;
+  color: #444;
+  grid-column: 1 / -1;
+  text-align: center;
+  background: none;
+  box-shadow: none;
+  padding: 10px 0;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #ED4710;
+}
+
+.item .add-to-cart {
+  position: static;   /* remove absolute */
+  margin-left: 10px;  /* espaço ao lado do preço */
+}
+
+.card-description {
+  clear: both; /* força ficar abaixo de elementos flutuantes */
+  margin-top: 10px;
+}
+
+.item-header .price {
+  font-weight: bold;
+  color: #e63946;
+  margin: 0;
+}
+
+.back-to-top-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#backToTop {
+  background-color: #fff;
+  color: #ED4710;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  display: none;
+  transition: background 0.3s ease;
+}
+
+#backToTop:hover {
+  background-color: #FFD700;
+  color: #ED4710;
+}
+
+.menu-btn {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  header nav {
+    display: none;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+}
+
+.menu-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.menu-content {
+  background-color: #fff;
+  margin: 20% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.menu-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-content li {
+  margin: 15px 0;
+}
+
+.menu-content {
+  position: relative;
+  top: 0%;               
+  margin: 0 auto;        
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+
+  display: flex;          
+  flex-direction: column; 
+  max-height: 80vh; 
+}
+
+.menu-content a:hover {
+  color: #FFD700;
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  color: #ED4710;
+}
+
+.contact-section {
+  background: #fffdd0;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 5px 0 5px 5px;
+  max-width: auto;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.contact-section h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.contact-section p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.contact-section img {
+  vertical-align: middle;
+}
+
+h2[id] {
+  scroll-margin-top: 80px;
+}
+
+#cartButtonMobile {
+  background-color: #ED4710;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 10px;
+}
+
+#cartButtonMobile:hover {
+  background-color: #FFD700;
+  color: #ED4710;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: row; /* garante lado a lado */
+  gap: 10px;           /* espaço entre carrinho e menu mobile */
+  align-items: center;
+  margin-left: auto;   /* empurra para a direita */
+}
+
+@media (max-width: 768px) {
+  nav {
+    display: none; /* esconde o menu normal no mobile */
+  }
+
+  .header-actions {
+    /*flex-direction: row; /* mantém carrinho e ☰ lado a lado */
+    justify-content: flex-end;
+  }
+
+  #cartButton {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .menu-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+/* Botão carrinho dentro do card */
+.item .add-to-cart {
+  position: absolute;
+  bottom: 10px;   /* distância do fundo */
+  right: 10px;    /* distância da lateral direita */
+  background-color: #fffdd0;
+  color: #444;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.item .cart-btn:hover {
+  background-color: #FFD700;
+  color: #ED4710;
+}
+
+.add-to-cart:active,
+.add-to-cart.added {
+  transform: scale(1.1);
+  background-color: #ffd700;
+  color: #ED4710;
+  transition: all 0.4s ease;
+}
+
+#cartCount {
+  background: #fff;
+  color: #ED4710;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between; /* separa nome/preço do botão */
+  align-items: center;
+  margin: 5px 0;
+}
+
+#cartItems li button {
+  margin-left: 10px;   /* espaço entre preço e X */
+  background: none;
+  border: none;
+  color: #e63946;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.whatsapp-btn:hover {
+  background-color: #128C7E; /* verde mais escuro */
+}
+
+.payment-methods {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.payment-methods h3 {
+  margin-bottom: 10px;
+  color: #ED4710;
+}
+
+.payment-methods label {
+  display: inline-block;   /* força cada opção em uma linha */
+  margin: 0 15px;    /* espaço entre elas */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#cartModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh; /* altura máxima do modal */
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+  display: flex;
+  flex-direction: column; /* organiza cabeçalho, lista e rodapé */
+}
+
+.cart-footer {
+  flex-shrink: 0;
+  background: #fff;
+  padding: 6px 0;       /* reduz bastante a altura */
+  text-align: center;
+  border-top: 4px solid #ED4710;
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;    /* botão mais compacto */
+  border-radius: 20px;
+  font-size: 14px;      /* fonte menor */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 4px auto;     /* espaço mínimo acima/abaixo */
+  display: block;
+}
+
+#cartItems {
+  flex: 1;          /* ocupa o espaço disponível */
+  max-height: 160px;   /* define limite de altura só para a lista */
+  overflow-y: auto;    /* ativa rolagem interna */
+  margin-bottom: 10px; /* espaço antes do total/botão */
+}
+
+#cartTotal {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#cartModal .footer {
+  text-align: center;
+}
+
+.cart-logo {
+  text-align: center;     /* centraliza horizontalmente */
+  margin-top: 0px;       /* espaço acima da logo */
+  margin-bottom: 8px;    /* espaço abaixo da logo */
+}
+
+.cart-logo img {
+  max-width: 90px;       /* controla tamanho da logo */
+  height: auto;
+}
+
+.cart-header {
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* título à esquerda, botão à direita */
+  align-items: center;
+  border-bottom: 4px solid #ED4710;
+  margin-bottom: 8px 0;
+}
+
+.cart-header h2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0; /* remove espaço extra */
+}
+
+.cart-header .close {
+  font-size: 24px;
+  cursor: pointer;
+}
+  </style>
+ </head>
+ <body>
+  <!-- Cabeçalho -->
+  <header>
+   <div class="logo">
+    <img alt="Logo Z12 Grelha Burger" src="logo_Z12_x.jpg"/>
+   </div>
+   <nav>
+    <ul>
+     <li><a class="active" href="#hamburgueres">Hamb&uacute;rgueres</a></li>
+     <li><a href="#sanduiches">Sandu&iacute;ches</a></li>
+     <li><a href="#espetinhos">Espetinhos</a></li>
+     <li><a href="#porcoes">Por&ccedil;&otilde;es</a></li>
+     <li><a href="#adicionais">Adicionais</a></li>
+     <li><a href="#bebidas">Bebidas</a></li>
+     <li><a href="#cervejas">Cervejas</a></li>
+     <li><a href="#contato">Contato</a></li>
+    </ul>
+   </nav>
+    <!-- Botão do carrinho no cabeçalho-->
+    <div class="header-actions">
+    <button id="cartButton" onclick="openCart()">🛒 Carrinho <span id="cartCount">0</span></button>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+  </header>
+  <!-- Modal do menu -->
+  <div class="menu-modal" id="menuModal">
+   <div class="menu-content">
+    <span class="close" id="closeMenu">
+     &times;
+    </span>
+    <nav>
+     <ul>
+      <li><a href="#hamburgueres">Hamb&uacute;rgueres</a></li>
+      <li><a href="#sanduiches">Sandu&iacute;ches</a></li>
+      <li><a href="#espetinhos">Espetinhos</a></li>
+      <li><a href="#porcoes">Por&ccedil;&otilde;es</a></li>
+      <li><a href="#adicionais">Adicionais</a></li>
+      <li><a href="#bebidas">Bebidas</a></li>
+      <li><a href="#cervejas">Cervejas</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <!-- Botão do carrinho no cabeçalho-->
+      <li><a href="#" onclick="openCart()">🛒 Carrinho</a></li>
+     </ul>
+    </nav>
+   </div>
+  </div>
+
+  <!-- Modal do Carrinho -->
+<div id="cartModal" class="menu-modal">
+  <div class="menu-content">
+
+    <!-- Logo -->
+    <div class="cart-logo">
+      <img src="logo_Z12_0.jpg" alt="Logo do Restaurante">
+    </div>
+    
+    <!-- Cabeçalho -->
+    <div class="cart-header">
+      <h2>Seu Carrinho</h2>
+      <span class="close" onclick="closeCart()">×</span>
+    </div>
+
+    <!-- Lista de itens (única parte que rola) -->
+    <ul id="cartItems"></ul>
+
+    <!-- Rodapé fixo -->
+    <div class="cart-footer">
+      <p id="cartTotal">Total: R$ 0,00</p>
+
+      <div class="payment-methods">
+  <h3>Forma de Pagamento</h3>
+  <label><input type="radio" name="payment" value="Pix" onclick="setPaymentMethod('Pix')"> Pix</label><br>
+  <label><input type="radio" name="payment" value="Cartão" onclick="setPaymentMethod('Cartão')"> Cartão</label><br>
+  <label><input type="radio" name="payment" value="Dinheiro" onclick="setPaymentMethod('Dinheiro')"> Dinheiro</label>
+</div>
+
+      <button class="whatsapp-btn" onclick="sendWhatsAppOrder()">📲 Finalizar pelo WhatsApp</button>
+    </div>
+
+  </div>
+</div>
+
+  <!-- Cardápio -->
+  <div class="menu">
+   <h1>
+    Card&aacute;pio
+   </h1>
+   <h2 id="hamburgueres">🍔 Hamb&uacute;rgueres</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Mini Brasa</h3>
+      <span class="price">R$ 20,00</span>
+     </div>
+     <p>100g de burger bovino, mussarela e p&atilde;o.</p>
+     <button class="add-to-cart" onclick="addToCart('Mini Brasa', 20)">&#43 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Mini Egg Brasa</h3>
+      <span class="price">R$ 25,00</span>
+     </div>
+     <p>100g de burger bovino, ovo frito, mussarela, tomate e alface e p&atilde;o.</p>
+     <button class="add-to-cart" onclick="addToCart('Mini Egg Brasa', 25)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Brasa Bacon</h3>
+      <span class="price">R$ 36,00</span>
+     </div>
+     <p>100g de burger bovino, bacon, mussarela, cebola caramelizada, molho barbecue e p&atilde;o.</p>
+      <button class="add-to-cart" onclick="addToCart('Brasa Bacon', 36)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Big Brasa Cheddar</h3>
+      <span class="price">R$ 48,00</span>
+     </div>
+     <p>2 burgers bovinos 130g cada, 2 cheddar, cebolas caramelizadas, bacon, tomate e alface.</p>
+     <button class="add-to-cart" onclick="addToCart('Big Brasa Cheddar', 48)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Brasa Sertanejo</h3>
+      <span class="price">R$ 40,00</span>
+     </div>
+     <p>130g de burger bovino, queijo coalho na brasa, molho da casa, cebola assada com nata, coentro e p&atilde;o.</p>
+      <button class="add-to-cart" onclick="addToCart('Brasa Sertanejo', 40)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Brasa Veggie</h3>
+      <span class="price">R$ 30,00</span>
+     </div>
+     <p>130g de burger de berinjela empanada, mix de piment&otilde;es, ricota integral da casa, molho da casa e p&atilde;o.</p>
+      <button class="add-to-cart" onclick="addToCart('Brasa Veggie', 30)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Observações</h3>
+     </div>
+     <p class="note">Todos os hamb&uacute;rgueres acompanham 100g de batata frita.</p>
+    </div>
+   </div>
+    <!-- fecha menu-section -->
+
+   <h2 id="sanduiches">🥪 Sandu&iacute;ches</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Malemb&aacute;</h3>
+      <span class="price">R$ 38,00</span>
+     </div>
+     <p>130g de burger de fil&eacute; de camar&atilde;o, abacax&iacute; caramelizado na brasa, tomate, molho da casa e p&atilde;o.</p>
+      <button class="add-to-cart" onclick="addToCart('Malembá', 38)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Sando Tuna</h3>
+      <span class="price">R$ 36,00</span>
+     </div>
+     <p>Fil&eacute; de atum selado na brasa, abacate, repolho roxo salteado, molho tonkatsu e p&atilde;o ciabatta.</p>
+      <button class="add-to-cart" onclick="addToCart('Sando Tuna', 36)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Ventresca de Atum</h3>
+      <span class="price">R$ 40,00</span>
+     </div>
+     <p>Barriga de atum na brasa, tomates assados, alho frito, maionese de gengibre, cebolinha fresca, molho de ostra e tonkatsu e p&atilde;o ciabatta.</p>
+      <button class="add-to-cart" onclick="addToCart('Ventresca de Atum', 40)">🛒 Adicionar</button>
+    </div>
+   </div>
+   <!-- fecha menu-section -->
+
+   <h2 id="espetinhos">🍢 Espetinhos</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Carne Bovina</h3>
+      <span class="price">R$ 12,00</span>
+     </div>
+     <p>100g de carne bovina grelhada e cortada em cubos.</p>
+     <button class="add-to-cart" onclick="addToCart('Carne Bovina', 12)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Carne de Sol</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>100g de carne bovina grelhada e cortada em cubos.</p>
+     <button class="add-to-cart" onclick="addToCart('Carne de Sol', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Frango</h3>
+      <span class="price">R$ 10,00</span>
+     </div>
+     <p>100g de frango grelhado e cortado em cubos.</p>
+     <button class="add-to-cart" onclick="addToCart('Frango', 10)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Cora&ccedil;&atilde;o</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>100g de cora&ccedil;&atilde;o de frango grelhado.</p>
+     <button class="add-to-cart" onclick="addToCart('Coração', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Queijo de Coalho</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>100g de queijo de coalho na brasa cortados em cubos.</p>
+     <button class="add-to-cart" onclick="addToCart('Queijo de Coalho', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Mix de Vegetais</h3>
+      <span class="price">R$ 10,00</span>
+     </div>
+     <p>Peda&ccedil;os de vegetais grelhados na brasa.</p>
+     <button class="add-to-cart" onclick="addToCart('Mix de Vegetais', 10)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Cogumelo Shimeji</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>Cogumelos grelhados na brasa.</p>
+     <button class="add-to-cart" onclick="addToCart('Cogumelo Shimeji', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Panceta su&iacute;na</h3>
+      <span class="price">R$ 12,00</span>
+     </div>
+     <p>100g de panceta su&iacute;na grelhada.</p>
+     <button class="add-to-cart" onclick="addToCart('Panceta suína', 12)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Fil&eacute; de Peixe</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>100g de fil&eacute; de peixe grelhado cortados em cubos.</p>
+     <button class="add-to-cart" onclick="addToCart('Filé de Peixe', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Camar&atilde;o</h3>
+      <span class="price">R$ 22,00</span>
+     </div>
+     <p>100g de camar&atilde;o grelhado.</p>
+     <button class="add-to-cart" onclick="addToCart('Camarão', 22)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>P&atilde;o de Alho</h3>
+      <span class="price">R$ 10,00</span>
+     </div>
+     <p>P&atilde;o de alho com manteiga e alho.</p>
+     <button class="add-to-cart" onclick="addToCart('Pão de Alho', 10)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <p class="note">Todos os espetinhos s&atilde;o servidos com vinagrete, farofa e chimichurri.</p>
+    </div>
+   </div>
+   <!-- fecha menu-section -->
+
+   <h2 id="porcoes">🍟 Por&ccedil;&otilde;es</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Batata Frita</h3>
+      <span class="price">R$ 9,00</span>
+     </div>
+     <p>150g de batatas fritas</p>
+     <button class="add-to-cart" onclick="addToCart('Batata Frita', 9)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Batata Frita</h3>
+      <span class="price">R$ 17,00</span>
+     </div>
+     <p>300g de batatas fritas</p>
+     <button class="add-to-cart" onclick="addToCart('Batata Frita', 17)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Batata Frita com Bacon</h3>
+      <span class="price">R$ 25,00</span>
+     </div>
+     <p>300g de batatas fritas com bacon, cheddar e cebolinha</p>
+     <button class="add-to-cart" onclick="addToCart('Batata Frita com Bacon', 25)">🛒 Adicionar</button>
+    </div>
+   </div>
+   <!-- fecha menu-section -->
+
+   <h2 id="adicionais">➕ Adicionais</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Ovo Frito</h3>
+      <span class="price">R$ 3,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do adicional.</p>
+      <button class="add-to-cart" onclick="addToCart('Ovo Frito', 3)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Creme Cheddar</h3>
+      <span class="price">R$ 4,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do adicional.</p>
+      <button class="add-to-cart" onclick="addToCart('Creme Cheddar', 4)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Tomate e Alface</h3>
+      <span class="price">R$ 2,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do adicional.</p>
+      <button class="add-to-cart" onclick="addToCart('Tomate e Alface', 2)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Bacon Crocante</h3>
+      <span class="price">R$ 5,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do adicional.</p>
+      <button class="add-to-cart" onclick="addToCart('Bacon Crocante', 5)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Queijo Mussarela</h3>
+      <span class="price">R$ 4,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do adicional.</p>
+      <button class="add-to-cart" onclick="addToCart('Queijo Mussarela', 4)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Maionese da Casa</h3>
+      <span class="price">R$ 2,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada da maionese.</p>
+      <button class="add-to-cart" onclick="addToCart('Maionese da Casa', 2)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Costela Bovina Desfiada</h3>
+      <span class="price">R$ 10,00</span>
+     </div>
+     <p>70g de costela bovina desfiada e temperada.</p>
+      <button class="add-to-cart" onclick="addToCart('Costela Bovina Desfiada', 10)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Hamburguer Bovino</h3>
+      <span class="price">R$ 8,00</span>
+     </div>
+     <p>100g de carne bovina grelhada.</p>
+      <button class="add-to-cart" onclick="addToCart('Hamburguer Bovino', 8)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Hamburguer Bovino</h3>
+      <span class="price">R$ 11,00</span>
+     </div>
+     <p>130g de carne bovina grelhada.</p>
+      <button class="add-to-cart" onclick="addToCart('Hamburguer Bovino', 11)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Hamburguer de Carne de Sol</h3>
+      <span class="price">R$ 13,00</span>
+     </div>
+     <p>130g de carne de sol grelhada.</p>
+      <button class="add-to-cart" onclick="addToCart('Hamburguer de Carne de Sol', 13)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Vinagrete</h3>
+      <span class="price">R$ 2,00</span>
+     </div>
+     <p>Vinagrete caseiro com alho e azeite.</p>
+      <button class="add-to-cart" onclick="addToCart('Vinagrete', 2)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Farofa</h3>
+      <span class="price">R$ 2,00</span>
+     </div>
+     <p>Farofa crocante com temperos especiais.</p>
+      <button class="add-to-cart" onclick="addToCart('Farofa', 2)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Chimichurri</h3>
+      <span class="price">R$ 2,00</span>
+     </div>
+     <p>Descri&ccedil;&atilde;o detalhada do chimichurri.</p>
+      <button class="add-to-cart" onclick="addToCart('Chimichurri', 2)">🛒 Adicionar</button>
+    </div>
+   </div>
+   <!-- fecha menu-section -->
+
+   <h2 id="bebidas">🥂 Bebidas</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>&Aacute;gua Mineral s/ G&aacute;s</h3>
+      <span class="price">R$ 6,00</span>
+     </div>
+     <p>Garrafa de 500ml</p>
+      <button class="add-to-cart" onclick="addToCart('Água Mineral s/ Gás', 6)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>&Aacute;gua Mineral c/ G&aacute;s</h3>
+      <span class="price">R$ 7,00</span>
+     </div>
+     <p>Garrafa de 500ml</p>
+      <button class="add-to-cart" onclick="addToCart('Água Mineral c/ Gás', 7)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header"><h3>
+       &Aacute;gua T&ocirc;nica</h3>
+      <span class="price">R$ 8,00</span>
+     </div>
+     <p>Lata de 350ml</p>
+      <button class="add-to-cart" onclick="addToCart('Água Tônica', 8)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Refrigerantes</h3>
+      <span class="price">R$ 8,00</span>
+     </div>
+     <p>Lata de 350ml</p>
+      <button class="add-to-cart" onclick="addToCart('Refrigerantes', 8)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Suco Natural</h3>
+      <span class="price">R$ 15,00</span>
+     </div>
+     <p>Copo de 300ml</p>
+      <button class="add-to-cart" onclick="addToCart('Suco Natural', 15)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Suco Natural 2 Frutas</h3>
+      <span class="price">R$ 18,00</span>
+     </div>
+     <p>Copo de 300ml</p>
+      <button class="add-to-cart" onclick="addToCart('Suco Natural 2 Frutas', 18)">🛒 Adicionar</button>
+    </div>
+   </div>
+   <!-- fecha menu-section -->
+
+   <h2 id="cervejas">🍺 Cervejas</h2>
+   <div class="menu-section">
+    <div class="item">
+     <div class="item-header">
+      <h3>Praya</h3>
+      <span class="price">R$ 12,00</span>
+     </div>
+     <p>Sem gl&uacute;ten.</p>
+      <button class="add-to-cart" onclick="addToCart('Praya', 12)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Heineken</h3>
+      <span class="price">R$ 14,00</span>
+     </div>
+     <p>Long Neck 330ml</p>
+      <button class="add-to-cart" onclick="addToCart('Heineken', 14)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Amstel</h3>
+      <span class="price">R$ 7,00</span>
+     </div>
+     <p>Lata de 350ml</p>
+      <button class="add-to-cart" onclick="addToCart('Amstel', 7)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Devassa</h3>
+      <span class="price">R$ 6,00</span>
+     </div>
+     <p>Lata de 350ml</p>
+      <button class="add-to-cart" onclick="addToCart('Devassa', 6)">🛒 Adicionar</button>
+    </div>
+    <div class="item">
+     <div class="item-header">
+      <h3>Skol</h3>
+      <span class="price">R$ 6,00</span>
+     </div>
+     <p>Lata de 350ml</p>
+      <button class="add-to-cart" onclick="addToCart('Skol', 6)">🛒 Adicionar</button>
+    </div>
+   </div>
+   <h2 id="contato">
+    📞 Contato
+   </h2>
+   <div class="contact-section">
+    <p>
+     <a href="https://www.google.com/maps/place//@-6.1874429,-35.0922522,68m/data=!3m1!1e3?entry=ttu&amp;g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" style="text-decoration:none; color:inherit;" target="_blank">
+      <img alt="Endere&ccedil;o" height="20" src="https://cdn-icons-png.flaticon.com/512/684/684908.png" style="vertical-align:middle; margin-right:5px;" width="20"/>
+      Gov. Alizio Alves, 0 - Tibau do Sul - RN
+     </a>
+    </p>
+    <p>
+     <a href="https://wa.me/5584986391105" style="text-decoration:none; color:inherit;" target="_blank">
+      <img alt="WhatsApp" height="20" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="vertical-align:middle; margin-right:5px;" width="20"/>
+      +55 (84) 98639-1105
+     </a>
+    </p>
+    <p>
+     <a href="https://www.instagram.com/z12brasaburguer/?__pwa=1" style="text-decoration:none; color:inherit;" target="_blank">
+      <img alt="Instagram" height="20" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" style="vertical-align:middle; margin-right:5px;" width="20"/>
+      @z12brasaburguer
+     </a>
+    </p>
+   </div>
+   <div class="back-to-top-container">
+    <button id="backToTop">
+     Voltar ao Topo
+    </button>
+   </div>
+   <footer>
+    <p style="text-align:center; color:#555; margin:20px 0; font-size:14px; font-family: 'Equal Sans', sans-serif;">
+     &copy; 2026 Z12 Grelha Burger.
+     <a href="mailto:psartes@hotmail.com?subject=Ol&aacute;,%20gostaria%20de%20saber%20mais%20sobre%20o%20projeto%20do%20card&aacute;pio!" style="color:#555; text-decoration:none;">
+      Developed by hr.freitas
+     </a>
+    </p>
+   </footer>
+   <script>
+    // Script para destacar o link ativo e mostrar o botão Voltar ao Topo
+const sections = document.querySelectorAll("h2[id]");
+const headerLinks = document.querySelectorAll("header nav ul li a");
+const modalLinks = document.querySelectorAll("#menuModal nav ul li a");
+const allLinks = Array.from(headerLinks).concat(Array.from(modalLinks));
+const backToTopBtn = document.getElementById("backToTop");
+const menuBtn = document.getElementById("menuBtn");
+const menuModal = document.getElementById("menuModal");
+const closeMenu = document.getElementById("closeMenu");
+
+function updateActiveLinks() {
+  let current = "";
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80;
+    const sectionHeight = section.offsetHeight;
+
+    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  allLinks.forEach(link => link.classList.remove("active"));
+
+  if (current) {
+    const activeHeader = document.querySelector(`header nav ul li a[href="#${current}"]`);
+    const activeModal = document.querySelector(`#menuModal nav ul li a[href="#${current}"]`);
+
+    if (activeHeader) activeHeader.classList.add("active");
+    if (activeModal) activeModal.classList.add("active");
+  }
+}
+
+function updateBackToTopButton() {
+  if (window.pageYOffset > 200) {
+    backToTopBtn.style.display = "inline-block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
+}
+
+window.addEventListener("scroll", () => {
+  updateActiveLinks();
+  updateBackToTopButton();
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+menuBtn.addEventListener("click", () => {
+  menuModal.style.display = "block";
+});
+
+closeMenu.addEventListener("click", () => {
+  menuModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === menuModal) {
+    menuModal.style.display = "none";
+  }
+});
+
+modalLinks.forEach(link => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const targetId = link.getAttribute("href").substring(1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      menuModal.style.display = "none";
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      headerLinks.forEach(nav => nav.classList.remove("active"));
+      modalLinks.forEach(nav => nav.classList.remove("active"));
+
+      const activeHeader = document.querySelector(`header nav ul li a[href="#${targetId}"]`);
+      const activeModal = document.querySelector(`#menuModal nav ul li a[href="#${targetId}"]`);
+      if (activeHeader) activeHeader.classList.add("active");
+      if (activeModal) activeModal.classList.add("active");
+    } else {
+      console.warn("Elemento não encontrado para ID:", targetId);
+    }
+  });
+});
+
+// --- Carrinho ---
+let cart = [];
+let paymentMethod = ""; // variável para armazenar a forma de pagamento selecionada
+
+function setPaymentMethod(method) {
+  paymentMethod = method;
+}
+
+function addToCart(itemName, itemPrice) {
+  cart.push({ name: itemName, price: itemPrice });
+  updateCart();
+}
+ // cria ícone temporário
+  const icon = document.createElement("span");
+  icon.textContent = "🛒";
+  icon.className = "fly";
+  document.body.appendChild(icon);
+
+  // posição inicial: botão clicado
+  const btn = event.target;
+  const rect = btn.getBoundingClientRect();
+  icon.style.left = rect.left + "px";
+  icon.style.top = rect.top + "px";
+
+  // remove após animação
+  setTimeout(() => icon.remove(), 800);
+
+function updateCart() {
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  const cartCount = document.getElementById("cartCount"); // atualiza contador no botão
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
+    // botão remover
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "❌";
+    removeBtn.onclick = () => removeFromCart(index);
+    li.appendChild(removeBtn);
+    cartItems.appendChild(li);
+  });
+
+  cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+  cartCount.textContent = cart.length; // atualiza contador
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+function resetPaymentOptions() {
+  const radios = document.querySelectorAll('input[name="payment"]');
+  radios.forEach(radio => radio.checked = false);
+}
+
+function openCart() {
+  document.getElementById("cartModal").style.display = "block";
+  resetPaymentOptions(); // limpa opções de pagamento ao abrir o carrinho
+}
+
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
+}
+
+function sendWhatsAppOrder() {
+  if (cart.length === 0) {
+    alert("Seu carrinho está vazio!");
+    return;
+  }
+
+  let message = "Olá! Gostaria de fazer o seguinte pedido:%0A%0A";
+  let total = 0;
+
+  cart.forEach(item => {
+    message += `- ${item.name} (R$ ${item.price.toFixed(2)})%0A`;
+    total += item.price;
+  });
+
+  message += `%0ATotal: R$ ${total.toFixed(2)}`;
+  message += `%0AForma de pagamento: ${paymentMethod}`;
+
+ // Adiciona forma de pagamento
+if (!paymentMethod) {
+  alert("Por favor, selecione a forma de pagamento!");
+  return; // interrompe o envio se não tiver nada escolhido
+}
+// message += `%0AForma de pagamento: ${paymentMethod}`; // Adiciona uma mensagem do tipo "Forma de pagamento"
+
+  // número do restaurante
+  const phone = "5584986391105"; 
+  const url = `https://wa.me/${phone}?text=${message}`;
+  window.open(url, "_blank");
+
+  // --- limpa carrinho após enviar ---
+  cart = [];
+  updateCart();
+  closeCart(); // opcional: fecha o modal do carrinho
+}
+   </script>
+  </div>
+ </body>
+</html>
