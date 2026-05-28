@@ -1206,10 +1206,10 @@ function setPaymentMethod(method) {
 function addToCart(itemName, itemPrice) {
   cart.push({ name: itemName, price: itemPrice });
   updateCart();
-}
- // cria ícone temporário
+
+  // cria ícone temporário
   const icon = document.createElement("span");
-  icon.textContent = "🛒";
+  icon.textContent = "+";
   icon.className = "fly";
   document.body.appendChild(icon);
 
@@ -1218,6 +1218,10 @@ function addToCart(itemName, itemPrice) {
   const rect = btn.getBoundingClientRect();
   icon.style.left = rect.left + "px";
   icon.style.top = rect.top + "px";
+
+  // remove após animação
+  setTimeout(() => icon.remove(), 800);
+}
 
   // remove após animação
   setTimeout(() => icon.remove(), 800);
