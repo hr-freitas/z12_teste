@@ -271,7 +271,7 @@ h2 {
 .menu-modal {
   display: none; /* esconde por padrão */
   position: fixed;
-  z-index: 1000;
+  z-index: 2000;
   left: 0;
   top: 0;
   width: 100%;
@@ -497,7 +497,7 @@ h2[id] {
   background: #fff;
   padding: 6px 0;       /* reduz bastante a altura */
   text-align: center;
-  border-top: 4px solid #ED4710;
+  border-top: 3px solid #ED4710;
 }
 
 .whatsapp-btn {
@@ -544,23 +544,59 @@ h2[id] {
 .cart-header {
   position: relative;
   display: flex;
-  justify-content: flex-end; /* título à esquerda, botão à direita */
+  justify-content: center; /* título à esquerda, botão à direita */
   align-items: center;
-  border-bottom: 4px solid #ED4710;
-  margin-bottom: 8px 0;
+  border-bottom: 3px solid #ED4710;
+  margin-bottom: 8px;
+  background: transparent;
+  border-top: none;
 }
 
 .cart-header h2 {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  /* position: absolute; */
+  position: static;
+  /*left: 50%; */
+  /*transform: translateX(-50%); */
+  transform: none; /* remove o deslocamento */
   margin: 0; /* remove espaço extra */
+  border: none;
+  background: none;
 }
 
 .cart-header .close {
+  position: absolute;
   font-size: 24px;
   cursor: pointer;
+  right: 10px;
 }
+
+
+#menuModal .menu-content nav {
+  display: block; /* garante que o nav apareça */
+}
+
+#menuModal .menu-content nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* força em coluna */
+  gap: 12px;              /* espaço entre itens */
+}
+
+#menuModal .menu-content nav ul li a {
+  text-decoration: none;
+  color: #ED4710;         /* cor visível sobre fundo branco */
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+  padding: 8px 0;
+}
+
+#menuModal .menu-content nav ul li a:hover {
+  color: #FFD700;         /* destaque ao passar o mouse */
+}
+
   </style>
  </head>
  <body>
@@ -658,7 +694,7 @@ h2[id] {
       <span class="price">R$ 20,00</span>
      </div>
      <p>100g de burger bovino, mussarela e p&atilde;o.</p>
-     <button class="add-to-cart" onclick="addToCart('Mini Brasa', 20)">&#43 Adicionar</button>
+     <button class="add-to-cart" onclick="addToCart('Mini Brasa', 20)">🛒 Adicionar</button>
     </div>
     <div class="item">
      <div class="item-header">
