@@ -277,6 +277,7 @@ h2 {
   height: 100%;
   background-color: rgba(0,0,0,0.6);
 
+  min-height: 100vh; /* garante altura mínima para rolar */
   overflow-y: auto; /* permite rolar se o conteúdo for maior que a tela */
 }
 
@@ -288,6 +289,8 @@ h2 {
   width: 80%;
   max-width: 400px;
   text-align: center;
+
+  max-height: 80vh; /* limita a altura do conteúdo para 80% da altura da tela */
 }
 
 .menu-content ul {
