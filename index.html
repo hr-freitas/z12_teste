@@ -283,14 +283,15 @@ h2 {
 
 .menu-content {
   background-color: #fff;
-  margin: 20% auto;
+  margin: 20% auto;/* centraliza verticalmente com margem */
   padding: 20px;
   border-radius: 12px;
   width: 80%;
   max-width: 400px;
   text-align: center;
 
-  max-height: 80vh; /* limita a altura do conteúdo para 80% da altura da tela */
+  max-height: 70vh; /* limita a altura do conteúdo para 80% da altura da tela */
+  overflow-y: auto; /* ativa rolagem interna se necessário */
 }
 
 .menu-content ul {
